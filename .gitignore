@@ -1,0 +1,10 @@
+# VSCode
+.vscode/
+
+# Python
+__pycache__/
+
+# PyPI
+SVP.egg-info/
+build/
+dist/
