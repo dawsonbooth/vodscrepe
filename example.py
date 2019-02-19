@@ -1,6 +1,6 @@
 from vodscrepe import Scraper, Database
 
-db = Database('videos/vods.db', 'vods')
+db = Database('vods.db', 'vods')
 
 s = Scraper('melee')
 
