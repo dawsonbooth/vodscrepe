@@ -91,8 +91,12 @@ class Scraper():
                 "img", recursive=False)]
             vod.player1.characters = [aliases.character(
                 c) for c in characters[:num_chars_p1]]
+            if None in vod.player1.characters:
+                vod.player1.characters = []
             vod.player2.characters = [aliases.character(
                 c) for c in characters[num_chars_p1:]]
+            if None in vod.player2.characters:
+                vod.player2.characters = []
 
             yield vod
 
