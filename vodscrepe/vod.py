@@ -1,8 +1,8 @@
 import re
-import svp.smash.melee.singles as ms
+import svp.smash.melee.singles as svp
 
 
-class Vod(ms.Vod):
+class Vod(svp.Vod):
     def __init__(self, vod_id=""):
         self.vod_id = vod_id
         self.video_id = ""
@@ -11,9 +11,9 @@ class Vod(ms.Vod):
         super().__init__()
 
     def parse_title(self, vod_title: str):
-        title_format = "\(([0-9]*-[0-9]*-[0-9]*)\) (.*) vs (.*) \[(.*)\] - (.*) - (.*)"
+        title_pattern = "\(([0-9]*-[0-9]*-[0-9]*)\) (.*) vs (.*) \[(.*)\] - (.*) - (.*)"
 
-        m = re.search(title_format, vod_title)
+        m = re.search(title_pattern, vod_title)
 
         self.date = m.group(1).strip()
         self.tournament = m.group(5).strip()
@@ -29,5 +29,3 @@ class Vod(ms.Vod):
                 self.tournament, self.player1.name, self.player1.characters,
                 self.player2.name, self.player2.characters,
                 self.round, self.format]
-
-    # TODO: Consider keys and __getitem__ functions
