@@ -1,7 +1,7 @@
 from vodscrepe import Scraper
 from tqdm import tqdm
 
-s = Scraper('melee')
+s = Scraper('melee', debug=True)
 
 pages = range(300)
 for vod in s.scrape(pages, show_progress=True):

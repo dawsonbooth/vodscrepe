@@ -12,14 +12,14 @@ from .errors import *
 from .vod import Vod
 
 
-def urlopen(url):
+def urlopen(url, debug):
     content = None
     while content is None:
         try:
             content = urllib.request.urlopen(url)
         except (URLError, HTTPError):
-            # TODO: print if 'debug mode' is enabled
-            # print("Connection Error: Reconnecting to '%s'" % url)
+            if debug:
+                tqdm.write("Connection Error: Reconnecting to '%s'" % url)
             continue
     return content
 
@@ -27,13 +27,14 @@ def urlopen(url):
 # TODO: Scrape vods.co for list of chars, player names, tournaments, etc.
 
 class Scraper():
-    def __init__(self, game):
+    def __init__(self, game, debug=False):
         self.home_url = "https://vods.co"
         self.game = game
         self.page = 0
+        self.debug = debug
 
     def scrape_vod(self, vod_url: str, platform='youtube'):
-        vod_content = urlopen(vod_url)
+        vod_content = urlopen(vod_url, self.debug)
         vod_strainer = SoupStrainer('div')
         vod_soup = BeautifulSoup(vod_content, "lxml", parse_only=vod_strainer)
         video_tag = vod_soup.find("div", class_="js-video widescreen", id="g1")
@@ -58,7 +59,7 @@ class Scraper():
 
     def _scrape_page(self, page_url, platform='youtube'):
         # Page soup
-        page_content = urlopen(page_url)
+        page_content = urlopen(page_url, self.debug)
         page_strainer = SoupStrainer("tr", class_=re.compile("recency"))
         page_soup = BeautifulSoup(
             page_content, "lxml", parse_only=page_strainer)
@@ -79,8 +80,8 @@ class Scraper():
                 vod = self.scrape_vod(
                     cells[1].a["href"], platform=platform)
             except InvalidVideoError as e:
-                # TODO: print if 'debug mode' is enabled
-                # print(e)
+                if self.debug:
+                    tqdm.write(e)
                 continue
 
             if vod is None:

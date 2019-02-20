@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='vodscrepe',
-    version='0.0.3',
+    version='0.0.4',
     description='Vods.co Vod Scraper',
     author='Dawson Booth',
     author_email='pypi@dawsonbooth.com',
