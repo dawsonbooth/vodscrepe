@@ -1,9 +1,10 @@
 from vodscrepe import Scraper
+from tqdm import tqdm
 
 s = Scraper('melee')
 
 pages = range(300)
-for vod in s.scrape(pages):
-    print(vod.video_id)
+for vod in s.scrape(pages, show_progress=True):
     if vod is not None:
-        print(vod)
+        pass
+        # tqdm.write(str(vod))

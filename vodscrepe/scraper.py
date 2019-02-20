@@ -4,6 +4,7 @@ from urllib.error import HTTPError, URLError
 
 import lxml
 from bs4 import BeautifulSoup, SoupStrainer
+from tqdm import tqdm
 
 from svp.smash import aliases
 
@@ -17,7 +18,8 @@ def urlopen(url):
         try:
             content = urllib.request.urlopen(url)
         except (URLError, HTTPError):
-            print("Connection Error: Reconnecting to '%s'" % url)
+            # TODO: print if 'debug mode' is enabled
+            # print("Connection Error: Reconnecting to '%s'" % url)
             continue
     return content
 
@@ -77,7 +79,8 @@ class Scraper():
                 vod = self.scrape_vod(
                     cells[1].a["href"], platform=platform)
             except InvalidVideoError as e:
-                print(e)
+                # TODO: print if 'debug mode' is enabled
+                # print(e)
                 continue
 
             if vod is None:
@@ -101,7 +104,8 @@ class Scraper():
             yield vod
 
     def scrape(self, pages=range(300), platform='youtube', event='',
-               player1='', player2='', character1='', character2=''):
+               player1='', player2='', character1='', character2='',
+               show_progress=True):
 
         page_url = self.home_url + "/" + self.game
         if player1:
@@ -117,11 +121,19 @@ class Scraper():
 
         page_url = page_url.replace(' ', '%20')
 
+        if show_progress:
+            pages = tqdm(pages, position=1, unit='pages', desc="All vods")
+
         for page in pages:
             self.page = page
             url = page_url if page == 0 else page_url + "?page=" + str(page)
 
-            for vod in self._scrape_page(url, platform=platform):
+            vods = self._scrape_page(url, platform=platform)
+            if show_progress:
+                vods = tqdm(vods, position=0, unit='vods',
+                            desc="Page %d" % page, total=60)
+
+            for vod in vods:
                 if vod is None:
                     return None
                 yield vod
