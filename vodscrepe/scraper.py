@@ -3,6 +3,7 @@ import urllib.request
 from urllib.error import HTTPError, URLError
 
 import lxml
+import gzip
 from bs4 import BeautifulSoup, SoupStrainer
 from tqdm import tqdm
 
@@ -12,16 +13,20 @@ from .errors import *
 from .vod import Vod
 
 
-def urlopen(url, debug):
-    content = None
-    while content is None:
+def urlopen(url, debug=False):
+    headers = {'Accept': 'application/xhtml+xml',
+               'Accept-Encoding': 'gzip'}
+    req = urllib.request.Request(url, headers=headers)
+
+    response = None
+    while response is None:
         try:
-            content = urllib.request.urlopen(url)
+            response = urllib.request.urlopen(req)
         except (URLError, HTTPError):
             if debug:
                 tqdm.write("Connection Error: Reconnecting to '%s'" % url)
             continue
-    return content
+    return gzip.decompress(response.read())
 
 
 # TODO: Scrape vods.co for list of chars, player names, tournaments, etc.
