@@ -4,7 +4,7 @@
 
 # Description
 
-This PyPI package is best described as a tool for scraping the <a href="vods.co">vods.co</a> website. Currently, the package only supports Super Smash Bros. Melee vods.
+This PyPI package is best described as a tool for scraping the <a href="https://vods.co/">vods.co</a> website. Currently, the package only supports Super Smash Bros. Melee vods.
 
 # Installation
 

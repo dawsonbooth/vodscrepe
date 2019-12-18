@@ -11,7 +11,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
-    description='Vods.co Vod Scraper',
+    description='https://vods.co/ vod scraper',
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Dawson Booth',
