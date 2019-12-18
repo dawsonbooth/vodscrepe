@@ -4,7 +4,9 @@ from tqdm import tqdm
 s = Scraper('melee', debug=True)
 
 pages = range(300)
-for vod in s.scrape(pages, show_progress=True):
-    if vod is not None:
-        pass
-        # tqdm.write(str(vod))
+try:
+    for vod in s.scrape(pages, show_progress=True):
+        if vod is not None:
+            tqdm.write(str(vod))
+except KeyboardInterrupt:
+    tqdm.write("Scraping terminated.")

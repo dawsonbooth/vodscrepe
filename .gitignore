@@ -3,8 +3,9 @@
 
 # Python
 __pycache__/
+*.pyc
 
 # PyPI
-SVP.egg-info/
+*.egg-info/
 build/
 dist/

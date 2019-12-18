@@ -1,14 +1,13 @@
+import gzip
 import re
 import urllib.request
 from urllib.error import HTTPError, URLError
 
 import lxml
-import gzip
 from bs4 import BeautifulSoup, SoupStrainer
 from tqdm import tqdm
 
-from svp.smash import aliases
-
+from .aliases import *
 from .errors import *
 from .vod import Vod
 
@@ -98,11 +97,11 @@ class Scraper():
             characters = [char_img["src"][24:-4]
                           for char_img in title_tag.find_all(
                 "img", recursive=False)]
-            vod.player1.characters = [aliases.character(
+            vod.player1.characters = [character(
                 c) for c in characters[:num_chars_p1]]
             if None in vod.player1.characters:
                 vod.player1.characters = []
-            vod.player2.characters = [aliases.character(
+            vod.player2.characters = [character(
                 c) for c in characters[num_chars_p1:]]
             if None in vod.player2.characters:
                 vod.player2.characters = []
