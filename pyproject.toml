@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "vodscrepe"
+version = "0.1.0"
+description = "https://vods.co/ vod scraper"
+authors = ["Dawson Booth <pypi@dawsonbooth.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/dawsonbooth/vodscrepe"
+repository = "https://github.com/dawsonbooth/vodscrepe"
+keywords = ["vod", "vods.co", "smash", "melee", "web-scraping", "crepes"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = "^3.4"
+tqdm = "^4.41.1"
+beautifulsoup4 = "^4.8.2"
+lxml = "^4.4.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
