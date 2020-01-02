@@ -1,6 +1,9 @@
 # `vodscrepe`
 
-[![pypi version](http://img.shields.io/pypi/v/vodscrepe.svg?style=flat)](https://pypi.org/project/vodscrepe/ "View this project on PyPI")
+[![](https://img.shields.io/pypi/v/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![](https://img.shields.io/pypi/pyversions/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![](https://img.shields.io/pypi/format/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![](https://img.shields.io/pypi/l/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
 
 # Description
 
