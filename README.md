@@ -39,7 +39,13 @@ except KeyboardInterrupt:
 
 This example lists information about the vods from the most recent to page 300 in the following fashion:
 
+```bash
+python example.py > sets.txt
 ```
+
+Then, the `sets.txt` file becomes populated with vod information...
+
+```txt
 "['2019-11-17'] DreamHack Atlanta 2019 - Mew2King (Sheik, Fox) vs Captain Faceroll (Sheik) - Grand Finals - Bo5"
 "['2019-11-17'] DreamHack Atlanta 2019 - n0ne (Captain Falcon) vs Captain Faceroll (Sheik) - Losers Finals - Bo5"
 "['2019-11-17'] DreamHack Atlanta 2019 - Spark (CA) (Sheik) vs Captain Faceroll (Sheik) - Losers Semis - Bo5"
@@ -65,6 +71,11 @@ This example lists information about the vods from the most recent to page 300 i
 "['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs Captain Faceroll (Sheik) - Winners Semis - Bo5"
 "['2019-11-09'] Genesis: BLACK - S2J (Captain Falcon) vs Blassy (Fox) - Winners Semis - Bo5"
 Scraping terminated.
+```
+
+...while the terminal details the progress:
+
+```bash
 All vods:   0%|                                                             | 0/300 [00:14<?, ?pages/s]
 Page 0:  40%|█████████████████████████████                                  | 24/60 [00:14<00:22,  1.62vods/s]
 ```
