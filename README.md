@@ -4,15 +4,15 @@
 [![](https://img.shields.io/pypi/dw/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
 [![](https://img.shields.io/pypi/pyversions/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
 [![](https://img.shields.io/pypi/format/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
-[![](https://img.shields.io/pypi/l/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![](https://img.shields.io/pypi/l/vodscrepe.svg?style=flat)](https://github.com/dawsonbooth/vodscrepe/blob/master/LICENSE)
 
 # Description
 
-This PyPI package is best described as a tool for scraping the <a href="https://vods.co/">vods.co</a> website. Currently, the package only supports Super Smash Bros. Melee vods.
+This PyPI package is best described as a tool for scraping the [vods.co](https://vods.co/) website. Currently, the package only supports Super Smash Bros. Melee vods.
 
 # Installation
 
-With Python installed (https://www.python.org/downloads/), simply run the following command to add the package to your project.
+With [Python](https://www.python.org/downloads/) installed, simply run the following command to add the package to your project.
 
 ```bash
 pip install vodscrepe
@@ -80,3 +80,7 @@ Scraping terminated.
 All vods:   0%|                                                             | 0/300 [00:14<?, ?pages/s]
 Page 0:  40%|█████████████████████████████                                  | 24/60 [00:14<00:22,  1.62vods/s]
 ```
+
+# License
+
+This software is released under the terms of [MIT license](LICENSE).
