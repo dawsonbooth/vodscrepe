@@ -47,38 +47,36 @@ python example.py > sets.txt
 Then, the `sets.txt` file becomes populated with vod information...
 
 ```txt
-"['2019-11-17'] DreamHack Atlanta 2019 - Mew2King (Sheik, Fox) vs Captain Faceroll (Sheik) - Grand Finals - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - n0ne (Captain Falcon) vs Captain Faceroll (Sheik) - Losers Finals - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Spark (CA) (Sheik) vs Captain Faceroll (Sheik) - Losers Semis - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - n0ne (Captain Falcon) vs Mew2King (Sheik) - Winners Finals - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Spark (CA) (Sheik) vs S2J (Captain Falcon) - Losers Quarters - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Captain Faceroll (Sheik) vs Kalvar (Marth) - Losers Quarters - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - n0ne (Captain Falcon) vs S2J (Captain Falcon) - Winners Semis - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Captain Faceroll (Sheik) vs Mew2King (Sheik) - Winners Semis - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Spark (CA) (Sheik) vs TheSWOOPER (Samus) - Losers Top 8 - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Voo (Falco) vs Kalvar (Marth) - Losers Top 8 - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - HiFi (Jigglypuff) vs TheSWOOPER (Samus) - Losers Round 3 - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Colbol (Fox) vs Kalvar (Marth) - Losers Round 3 - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Spark (CA) (Sheik) vs Captain Faceroll (Sheik) - Winners Quarters - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - S2J (Captain Falcon) vs Colbol (Fox) - Winners Quarters - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - n0ne (Captain Falcon) vs A Rookie (Mario) - Winners Quarters - Bo5"
-"['2019-11-17'] DreamHack Atlanta 2019 - Mew2King (Fox) vs HiFi (Jigglypuff) - Winners Quarters - Bo5"
-"['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs S2J (Captain Falcon) - Grand Finals - Bo5"
-"['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs Captain Faceroll (Sheik) - Losers Finals - Bo5"
-"['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs KoDoRiN (Marth) - Losers Semis - Bo5"
-"['2019-11-09'] Genesis: BLACK - S2J (Captain Falcon) vs Captain Faceroll (Sheik) - Winners Finals - Bo5"
-"['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs Panda (FL) (Fox) - Losers Quarters - Bo5"
-"['2019-11-09'] Genesis: BLACK - Blassy (Fox) vs KoDoRiN (Marth) - Losers Quarters - Bo5"
-"['2019-11-09'] Genesis: BLACK - Lucky (Fox) vs Captain Faceroll (Sheik) - Winners Semis - Bo5"
-"['2019-11-09'] Genesis: BLACK - S2J (Captain Falcon) vs Blassy (Fox) - Winners Semis - Bo5"
+"['2020-01-26'] Genesis 7 - Zain (Marth) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5"
+"['2020-01-26'] Genesis 7 - Mango (Fox) vs Hungrybox (Jigglypuff) - Losers Finals - Bo5"
+"['2020-01-26'] Genesis 7 - Hax (Fox) vs Hungrybox (Jigglypuff) - Losers Semis - Bo5"
+"['2020-01-26'] Genesis 7 - Mango (Falco) vs Zain (Marth) - Winners Finals - Bo5"
+"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Hungrybox (Jigglypuff) - Losers Quarters - Bo5"
+"['2020-01-26'] Genesis 7 - Hax (Fox) vs Leffen (Fox) - Losers Quarters - Bo5"
+"['2020-01-26'] Genesis 7 - Hungrybox (Jigglypuff) vs Zain (Marth) - Winners Semis - Bo5"
+"['2020-01-26'] Genesis 7 - Leffen (Fox) vs Mango (Falco) - Winners Semis - Bo5"
+"['2020-01-26'] Genesis 7 - Fiction (Fox) vs n0ne (Captain Falcon) - Losers Top 8 - Bo5"
+"['2020-01-26'] Genesis 7 - Hax (Fox) vs Shroomed (Sheik) - Losers Top 8 - Bo5"
+"['2020-01-26'] Genesis 7 - n0ne (Captain Falcon) vs aMSa (Sheik) - Losers Round 6 - Bo5"
+"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Captain Faceroll (Sheik) - Losers Round 6 - Bo5"
+"['2020-01-26'] Genesis 7 - Hax (Fox) vs PewPewU (Marth) - Losers Round 6 - Bo5"
+"['2020-01-26'] Genesis 7 - Shroomed (Sheik) vs Swedish Delight (Sheik) - Losers Round 6 - Bo5"
+"['2020-01-26'] Genesis 7 - iBDW (Fox) vs Captain Faceroll (Sheik) - Losers Round 5 - Bo5"
+"['2020-01-26'] Genesis 7 - Ryobeat (Peach) vs S2J (Captain Falcon) - Losers Round 4 - Bo5"
+"['2020-01-26'] Genesis 7 - Mew2King (Marth) vs ARMY (Ice Climbers) - Losers Round 4 - Bo5"
+"['2020-01-26'] Genesis 7 - Trif (Peach) vs Swedish Delight (Sheik) - Losers Round 4 - Bo5"
+"['2020-01-26'] Genesis 7 - SFAT (Fox) vs Panda (FL) (Fox) - Losers Round 3 - Bo5"
+"['2020-01-26'] Genesis 7 - Shroomed (Sheik) vs Zain (Marth) - Winners Quarters - Bo5"
+"['2020-01-26'] Genesis 7 - Mango (Falco) vs aMSa (Sheik) - Winners Quarters - Bo5"
+"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Leffen (Fox) - Winners Quarters - Bo3"
 Scraping terminated.
 ```
 
 ...while the terminal details the progress:
 
 ```bash
-All vods:   0%|                                                             | 0/300 [00:14<?, ?pages/s]
-Page 0:  40%|█████████████████████████████                                  | 24/60 [00:14<00:22,  1.62vods/s]
+All vods:   0%|                                              | 0/300 [00:07<?, ?pages/s]
+Page 0:  37%|████████████████████                            | 22/60 [00:07<00:12,  3.07vods/s]
 ```
 
 # License
