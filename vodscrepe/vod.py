@@ -1,12 +1,16 @@
 import re
-        
+
+
 class Player():
     __slots__ = ['sponsor', 'name', 'characters']
 
-    def __init__(self, sponsor="", name="", characters=[]):
+    def __init__(self, sponsor="", name="", characters=None):
+        if characters is None:
+            characters = []
         self.sponsor = sponsor
         self.name = name
         self.characters = characters
+
 
 class Vod():
     def __init__(self, vod_id=""):
@@ -26,7 +30,7 @@ class Vod():
         self.games = []
 
     def parse_title(self, vod_title: str):
-        title_pattern = "\(([0-9]*-[0-9]*-[0-9]*)\) (.*) vs (.*) \[(.*)\] - (.*) - (.*)"
+        title_pattern = r"\(([0-9]*-[0-9]*-[0-9]*)\) (.*) vs (.*) \[(.*)\] - (.*) - (.*)"
 
         m = re.search(title_pattern, vod_title)
 

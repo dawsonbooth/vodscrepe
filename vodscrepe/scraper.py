@@ -3,12 +3,11 @@ import re
 import urllib.request
 from urllib.error import HTTPError, URLError
 
-import lxml
 from bs4 import BeautifulSoup, SoupStrainer
 from tqdm import tqdm
 
-from .aliases import *
-from .errors import *
+from .aliases import guess_character
+from .errors import InvalidVideoError
 from .vod import Vod
 
 
@@ -53,7 +52,7 @@ class Scraper():
         # VOD properties
         vod.vod_id = vod_url[18:]
         vod.video_id = video_tag["data-vod"].split("?")[0]
-        vod.platform = 'youtube'
+        vod.platform = platform
         # TODO: Support Twitch vods
 
         # Parse title for svp Vod info
@@ -64,7 +63,7 @@ class Scraper():
     def _scrape_page(self, page_url, platform='youtube'):
         # Page soup
         page_content = urlopen(page_url, self.debug)
-        page_strainer = SoupStrainer("tr", class_=re.compile("recency"))
+        page_strainer = SoupStrainer("tr", class_=re.compile(r"recency"))
         page_soup = BeautifulSoup(
             page_content, "lxml", parse_only=page_strainer)
 
@@ -72,11 +71,11 @@ class Scraper():
             yield None
 
         for row in page_soup.findChildren("tr"):
-            cells = [cell for cell in row.findChildren("td")]
+            cells = row.findChildren("td")
 
             # Check Match Format
             match_format = cells[3].get_text().strip()
-            if re.match("Bo\d", match_format) is None:
+            if re.match(r"Bo\d", match_format) is None:
                 continue
 
             # Create VOD
@@ -94,15 +93,14 @@ class Scraper():
             # Characters
             title_tag = cells[1].a.span
             num_chars_p1 = str(title_tag).split("vs")[0].count("img")
-            characters = [char_img["src"][24:-4]
-                          for char_img in title_tag.find_all(
-                "img", recursive=False)]
-            vod.player1.characters = [character(
-                c) for c in characters[:num_chars_p1]]
+            chars = [char_img["src"][24:-4]
+                     for char_img in title_tag.find_all("img", recursive=False)]
+            vod.player1.characters = [guess_character(
+                c) for c in chars[:num_chars_p1]]
             if None in vod.player1.characters:
                 vod.player1.characters = []
-            vod.player2.characters = [character(
-                c) for c in characters[num_chars_p1:]]
+            vod.player2.characters = [guess_character(
+                c) for c in chars[num_chars_p1:]]
             if None in vod.player2.characters:
                 vod.player2.characters = []
 
