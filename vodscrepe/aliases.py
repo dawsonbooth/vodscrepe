@@ -1,80 +1,84 @@
-# TODO: Replace lambda match functions with machine learning lol
+import re
+
+# TODO: Add SSBU characters and stages
+
 stages = {
-    "Battlefield": lambda str: "battle" in str,
-    "Dream Land N64": lambda str: "land" in str,
-    "Final Destination": lambda str: "final" in str or str == "fd",
-    "Fountain of Dreams": lambda str: "fountain" in str or str == "fod",
-    "Yoshi's Story": lambda str: "yoshi" in str,
-    "Pokemon Stadium": lambda str: "pokemon" in str or "stadium" in str or str == "ps",
-    # TODO: Add non-legal stages
+    "Battlefield": re.compile(r"battle", flags=re.I),
+    "Dream Land N64": re.compile(r"land", flags=re.I),
+    "Final Destination": re.compile(r"final|fd", flags=re.I),
+    "Fountain of Dreams": re.compile(r"fount|fod", flags=re.I),
+    "Yoshi's Story": re.compile(r"yoshi", flags=re.I),
+    "Pokemon Stadium": re.compile(r"pokemon|stadium|ps", flags=re.I),
 }
 characters = {
-    "Bowser": lambda str: "bowser" in str,
-    "Captain Falcon": lambda str: "falcon" in str or str == "cf",
-    "Donkey Kong": lambda str: "donkey" in str or str == "dk",
-    "Dr. Mario": lambda str: "dr" in str,
-    "Falco": lambda str: "falco" in str and "falcon" not in str,
-    "Fox": lambda str: "fox" in str,
-    "Ganondorf": lambda str: "ganon" in str,
-    "Ice Climbers": lambda str: "ic" in str,
-    "Jigglypuff": lambda str: "jig" in str or "puff" in str,
-    "Kirby": lambda str: "kirby" in str,
-    "Link": lambda str: "link" in str and "y" not in str,
-    "Luigi": lambda str: "luigi" in str,
-    "Mario": lambda str: "mario" in str and "dr" not in str,
-    "Marth": lambda str: "marth" in str,
-    "Mewtwo": lambda str: "mew" in str,
-    "Mr. Game & Watch": lambda str: "game" in str or "&" in str,
-    "Ness": lambda str: "ness" in str,
-    "Peach": lambda str: "peach" in str or "daisy" in str,
-    "Pichu": lambda str: "pichu" in str,
-    "Pikachu": lambda str: "pikachu" in str,
-    "Roy": lambda str: "roy" in str,
-    "Samus": lambda str: "samus" in str,
-    "Sheik": lambda str: "sheik" in str or "shiek" in str,
-    "Young Link": lambda str: "link" in str and "y" in str,
-    "Yoshi": lambda str: "yoshi" in str,
-    "Zelda": lambda str: "zelda" in str
-    # TODO: Add SSBU characters
+    "Bowser": re.compile(r"bowser", flags=re.I),
+    "Captain Falcon": re.compile(r"falcon|cf", flags=re.I),
+    "Donkey Kong": re.compile(r"donkey|kong|dk", flags=re.I),
+    "Dr. Mario": re.compile(r"doc|dr", flags=re.I),
+    "Falco": re.compile(r"falco\b", flags=re.I),
+    "Fox": re.compile(r"fox", flags=re.I),
+    "Ganondorf": re.compile(r"ganon", flags=re.I),
+    "Ice Climbers": re.compile(r"ic", flags=re.I),
+    "Jigglypuff": re.compile(r"jig|puff", flags=re.I),
+    "Kirby": re.compile(r"kirby", flags=re.I),
+    "Link": re.compile(r"(?!y)link", flags=re.I),
+    "Luigi": re.compile(r"luigi", flags=re.I),
+    "Mario": re.compile(r"(?!d)mario", flags=re.I),
+    "Marth": re.compile(r"marth", flags=re.I),
+    "Mewtwo": re.compile(r"mew", flags=re.I),
+    "Mr. Game & Watch": re.compile(r"game|&", flags=re.I),
+    "Ness": re.compile(r"ness", flags=re.I),
+    "Peach": re.compile(r"peach|daisy", flags=re.I),
+    "Pichu": re.compile(r"pichu", flags=re.I),
+    "Pikachu": re.compile(r"pika", flags=re.I),
+    "Roy": re.compile(r"roy", flags=re.I),
+    "Samus": re.compile(r"samus", flags=re.I),
+    "Sheik": re.compile(r"sh", flags=re.I),
+    "Young Link": re.compile(r"y.*link", flags=re.I),
+    "Yoshi": re.compile(r"yoshi", flags=re.I),
+    "Zelda": re.compile(r"zelda", flags=re.I)
 }
 rounds = {
-    "Winners Quarters": lambda str: "winner" in str and "quarter" in str,
-    "Winners Semis": lambda str: "winner" in str and "semi" in str,
-    "Winners Finals": lambda str: "winner" in str and "final" in str,
-    "Losers Eighths": lambda str: "loser" in str and "eight" in str,
-    "Losers Quarters": lambda str: "loser" in str and "quarter" in str,
-    "Losers Semis": lambda str: "loser" in str and "semi" in str,
-    "Losers Finals": lambda str: "loser" in str and "final" in str,
-    "Grand Finals": lambda str: "grand" in str and "final" in str,
+    "Winners Quarters": re.compile(r"winner.*quarter|wq", flags=re.I),
+    "Winners Semis": re.compile(r"winner.*semi|ws", flags=re.I),
+    "Winners Finals": re.compile(r"winner.*final|wf", flags=re.I),
+    "Losers Eighths": re.compile(r"loser.*eight", flags=re.I),
+    "Losers Quarters": re.compile(r"loser.*quarter|lq", flags=re.I),
+    "Losers Semis": re.compile(r"loser.*semi|ls", flags=re.I),
+    "Losers Finals": re.compile(r"loser.*final|lf", flags=re.I),
+    "Grand Finals": re.compile(r"grand.*final|gf", flags=re.I),
 }
 sponsors = {
-    "Team Liquid": lambda str: "liquid" in str or "tl" in str,
-    "Alliance": lambda str: "[A]" in str or "alliance" in str,
-    "Counter Logic Gaming": lambda str: "clg" in str or ("counter" in str and "logic" in str),
-    "Cloud 9": lambda str: "C9" in str or "cloud" in str,
-
+    "Team Liquid": re.compile(r"liquid|tl", flags=re.I),
+    "Alliance": re.compile(r"\[A\]|alliance", flags=re.I),
+    "Counter Logic Gaming": re.compile(r"clg|counter.*logic", flags=re.I),
+    "Cloud 9": re.compile(r"c9|cloud", flags=re.I),
 }
 
 
-def character(str):
-    str = str.lower()
-    for char, compare in characters.items():
-        if compare(str):
-            return char
+def guess_character(ch):
+    for item, prog in characters.items():
+        if prog.search(ch):
+            return item
     return None
 
 
-def stage(str):
-    str = str.lower()
-    for stage, compare in stages.items():
-        if compare(str):
-            return stage
+def guess_stage(s):
+    for item, prog in stages.items():
+        if prog.search(s):
+            return item
     return None
 
 
-def round(str):
-    str = str.lower()
-    for round, compare in rounds.items():
-        if compare(str):
-            return round
+def guess_round(r):
+    for item, prog in rounds.items():
+        if prog.search(r):
+            return item
+    return None
+
+
+def guess_sponsor(s):
+    for item, prog in sponsors.items():
+        if prog.search(s):
+            return item
     return None
