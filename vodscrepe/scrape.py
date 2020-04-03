@@ -1,8 +1,10 @@
 import re
 import sys
+from concurrent.futures import as_completed
+from queue import Queue
 
-import requests
 from bs4 import BeautifulSoup, SoupStrainer
+from requests_futures.sessions import FuturesSession
 from tqdm import tqdm
 
 from .aliases import guess_character
@@ -11,20 +13,25 @@ from .utils import build_url
 
 stderr = lambda *args: print(file=sys.stderr, *args)
 
+
 class Scraper:
-    def __init__(self, video_game, event='', player1='', player2='', character1='', character2=''):
+    def __init__(self, video_game, event='', player1='', player2='', character1='', character2='', caster1='', caster2='',  num_workers=10):
         self.video_game = video_game
         self.event = event
         self.player1 = player1
         self.player2 = player2
         self.character1 = character1
         self.character2 = character2
-        self.base_url = build_url(video_game, event, player1,
-                                  player2, character1, character2)
+        self.caster1 = caster1
+        self.caster2 = caster2
 
-        self.session = requests.Session()
+        self.base_url = build_url(
+            video_game, event, player1, player2, character1, character2, caster1, caster2)
 
-        page_content = self.urlopen(self.base_url)
+        self.num_workers = num_workers
+        self.session = FuturesSession(max_workers=self.num_workers)
+
+        page_content = self.request(self.base_url).result().content
         page_soup = BeautifulSoup(page_content, "lxml")
         sections = [h2.parent for h2 in page_soup.findChildren(
             "h2", class_="pane-title block-title")]
@@ -35,7 +42,7 @@ class Scraper:
                         for o in sections[1].findChildren("option")[1:]]
         self.events = [o.getText()[1:]
                        for o in sections[2].findChildren("option")[1:]]
-        self.players = [o.getText()[1:]
+        self.casters = [o.getText()[1:]
                         for o in sections[3].findChildren("option")[1:]]
 
         self.num_pages = 1
@@ -44,14 +51,14 @@ class Scraper:
             self.num_pages = int(
                 re.search(r"page=([\d]+)", last_page_tag["href"]).group(1))
 
-    def urlopen(self, url):
+    def request(self, url):
         headers = {'Accept-Encoding': 'gzip'}
 
         response = self.session.get(url, headers=headers)
-        return response.content
+        return response
 
-    def get_video_ids(self, vod_id: str, verbose: bool):
-        vod_content = self.urlopen("https://vods.co/v/" + vod_id)
+    def get_video_ids(self, vod_id, vod_request, verbose: bool):
+        vod_content = vod_request.result().content
         vod_strainer = SoupStrainer('div', class_="region-inner clearfix")
         vod_soup = BeautifulSoup(
             vod_content, "lxml", parse_only=vod_strainer)
@@ -64,21 +71,29 @@ class Scraper:
         except KeyError:
             raise InvalidVideoException(vod_id)
 
-    def scrape_page(self, page_url, verbose: bool):
-        page_content = self.urlopen(page_url)
+    def scrape_page(self, page_request, verbose: bool):
+        page_content = page_request.result().content
         page_strainer = SoupStrainer("table")
         page_soup = BeautifulSoup(
             page_content, "lxml", parse_only=page_strainer)
 
+        vod_requests = [self.request(tr.findChild("a")["href"])
+                        for tr in page_soup.findChildren("tr")]
+
         for table in page_soup.findChildren(recursive=False):
             date = table.caption.span.getText()
-            for row in table.tbody.findChildren(recursive=False):
+            for i, row in enumerate(table.tbody.findChildren(recursive=False)):
                 cells = row.findChildren(recursive=False)
 
                 try:
-                    best_of = re.search(r"\d|$", cells[3].getText()).group()
-                    if best_of is None:
-                        continue
+                    vod_id = re.search(
+                        r".*\/(.*)", cells[1].a["href"]).group(1)
+
+                    try:
+                        best_of = re.search(
+                            r"Bo([\d]*)", cells[3].getText()).group(1)
+                    except AttributeError:
+                        raise InvalidVideoException(vod_id)
 
                     players = []
                     player = {"name": "Unknown", "characters": []}
@@ -86,19 +101,20 @@ class Scraper:
                         if tag.name == u'b':
                             if len(player["characters"]) != 0:
                                 players.append(player)
-                                player = {"name": "Unknown", "characters": []}
+                                player = {"name": "Unknown",
+                                          "characters": []}
                             player["name"] = tag.getText()
                         elif tag.name == u'img':
                             player["characters"].append(
                                 guess_character(tag["src"][24:-4]))
                     players.append(player)
 
-                    vod_id = re.search(
-                        r".*\/(.*)", cells[1].a["href"]).group(1)
+                    video_ids = self.get_video_ids(
+                        vod_id, vod_requests[i], verbose)
 
                     yield {
                         "vod_id": vod_id,
-                        "video_ids": self.get_video_ids(vod_id, verbose),
+                        "video_ids": video_ids,
                         "date": date,
                         "tournament": re.search(r"[^\s].*[^\s]", cells[0].getText()).group(),
                         "players": players,
@@ -108,22 +124,31 @@ class Scraper:
                 except InvalidVideoException as e:
                     if verbose:
                         stderr(e)
-                    continue
 
-    def scrape(self, pages=None, show_progress=False, verbose=False):
+    def scrape(self, pages=None, show_progress=False, verbose=False, num_workers=1):
         if pages is None:
             pages = range(self.num_pages - 1)
 
+        num_workers = min(num_workers, len(pages), self.num_workers)
+
+        request_queue = Queue(num_workers)
+        for i in range(num_workers):
+            request_queue.put(self.request(
+                self.base_url + "?page=" + str(pages[i])))
+
+        iter_pages = pages
         if show_progress:
-            pages = tqdm(pages, position=1, unit='pages', desc="All vods")
+            iter_pages = tqdm(iter_pages, position=1,
+                              unit='pages', desc="All vods")
+        for page in iter_pages:
 
-        for page in pages:
-            url = self.base_url + "?page=" + str(page)
-
-            vods = self.scrape_page(url, verbose)
+            vods = self.scrape_page(request_queue.get(), verbose)
             if show_progress:
                 vods = tqdm(vods, position=0, unit='vods',
                             desc="Page %d" % page, total=60)
 
             for vod in vods:
                 yield vod
+
+            request_queue.put(self.request(
+                self.base_url + "?page=" + str(page + num_workers)))
