@@ -42,7 +42,7 @@ class Scraper:
         last_page_tag = page_soup.findChild("a", title="Go to last page")
         if last_page_tag is not None:
             self.num_pages = int(
-                re.search(r"=([\d]+)", last_page_tag["href"]).group(1))
+                re.search(r"page=([\d]+)", last_page_tag["href"]).group(1))
 
     def urlopen(self, url):
         headers = {'Accept-Encoding': 'gzip'}
