@@ -90,20 +90,20 @@ class Scraper:
                         r".*\/(.*)", cells[1].a["href"]).group(1)
 
                     try:
-                        best_of = re.search(
-                            r"Bo([\d]*)", cells[3].getText()).group(1)
+                        best_of = int(re.search(
+                            r"Bo([\d]*)", cells[3].getText()).group(1))
                     except AttributeError:
                         raise InvalidVideoException(vod_id)
 
                     players = []
-                    player = {"name": "Unknown", "characters": []}
+                    player = {"alias": "Unknown", "characters": []}
                     for tag in cells[1].a.span.findChildren(recursive=False):
                         if tag.name == u'b':
                             if len(player["characters"]) != 0:
                                 players.append(player)
-                                player = {"name": "Unknown",
+                                player = {"alias": "Unknown",
                                           "characters": []}
-                            player["name"] = tag.getText()
+                            player["alias"] = tag.getText()
                         elif tag.name == u'img':
                             player["characters"].append(
                                 guess_character(tag["src"][24:-4]))

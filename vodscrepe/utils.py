@@ -4,10 +4,10 @@ def formatted_title(vod) -> str:
     title = ""
     title += "[" + repr(vod["date"]) + "] "
     title += vod["tournament"] + " - "
-    title += vod["players"][0]["name"] + " "
+    title += vod["players"][0]["alias"] + " "
     title += "(" + ", ".join(vod["players"][0]["characters"]) + ") "
     title += "vs "
-    title += vod["players"][1]["name"] + " "
+    title += vod["players"][1]["alias"] + " "
     title += "(" + ", ".join(vod["players"][1]["characters"]) + ") "
     title += "- " + vod["round"] + " "
     title += "- Bo" + str(vod["best_of"])
