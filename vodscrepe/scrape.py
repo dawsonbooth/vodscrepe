@@ -65,7 +65,7 @@ class Scraper:
         content = vod_soup.findChild(recursive=False)
 
         try:
-            video_ids = [v["data-vod"][:-1] for v in content.findChildren(
+            video_ids = [re.search(r"^([^?]*)", v["data-vod"]).group(1) for v in content.findChildren(
                 "div", class_="js-video widescreen", recursive=False)]
             return video_ids
         except KeyError:
