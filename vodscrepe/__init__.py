@@ -1,4 +1,4 @@
-from .scraper import Scraper
-from .vod import Vod
+from .scrape import Scraper
+from .utils import formatted_title, build_url
 
-__all__ = ['Scraper', 'Vod']
+__all__ = ['Scraper', 'formatted_title', 'build_url']
