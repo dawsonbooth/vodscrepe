@@ -23,22 +23,21 @@ pip install vodscrepe
 The following is an example usage of the package, which is also included in the repo as `example.py`:
 
 ```python
-from vodscrepe import Scraper
 from tqdm import tqdm
 
-s = Scraper('melee', debug=True)
+from vodscrepe import Scraper, formatted_title
 
-pages = range(300)
+s = Scraper('melee')
+
 try:
-    for vod in s.scrape(pages, show_progress=True):
+    for vod in s.scrape(show_progress=True):
         if vod is not None:
-            tqdm.write(str(vod))
+            tqdm.write(formatted_title(vod))
 except KeyboardInterrupt:
     tqdm.write("Scraping terminated.")
-
 ```
 
-This example lists information about the vods from the most recent to page 300 in the following fashion:
+This example lists information about the vods from the most recent to the last page in the following fashion:
 
 ```bash
 python example.py > sets.txt
@@ -47,36 +46,29 @@ python example.py > sets.txt
 Then, the `sets.txt` file becomes populated with vod information...
 
 ```txt
-"['2020-01-26'] Genesis 7 - Zain (Marth) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5"
-"['2020-01-26'] Genesis 7 - Mango (Fox) vs Hungrybox (Jigglypuff) - Losers Finals - Bo5"
-"['2020-01-26'] Genesis 7 - Hax (Fox) vs Hungrybox (Jigglypuff) - Losers Semis - Bo5"
-"['2020-01-26'] Genesis 7 - Mango (Falco) vs Zain (Marth) - Winners Finals - Bo5"
-"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Hungrybox (Jigglypuff) - Losers Quarters - Bo5"
-"['2020-01-26'] Genesis 7 - Hax (Fox) vs Leffen (Fox) - Losers Quarters - Bo5"
-"['2020-01-26'] Genesis 7 - Hungrybox (Jigglypuff) vs Zain (Marth) - Winners Semis - Bo5"
-"['2020-01-26'] Genesis 7 - Leffen (Fox) vs Mango (Falco) - Winners Semis - Bo5"
-"['2020-01-26'] Genesis 7 - Fiction (Fox) vs n0ne (Captain Falcon) - Losers Top 8 - Bo5"
-"['2020-01-26'] Genesis 7 - Hax (Fox) vs Shroomed (Sheik) - Losers Top 8 - Bo5"
-"['2020-01-26'] Genesis 7 - n0ne (Captain Falcon) vs aMSa (Sheik) - Losers Round 6 - Bo5"
-"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Captain Faceroll (Sheik) - Losers Round 6 - Bo5"
-"['2020-01-26'] Genesis 7 - Hax (Fox) vs PewPewU (Marth) - Losers Round 6 - Bo5"
-"['2020-01-26'] Genesis 7 - Shroomed (Sheik) vs Swedish Delight (Sheik) - Losers Round 6 - Bo5"
-"['2020-01-26'] Genesis 7 - iBDW (Fox) vs Captain Faceroll (Sheik) - Losers Round 5 - Bo5"
-"['2020-01-26'] Genesis 7 - Ryobeat (Peach) vs S2J (Captain Falcon) - Losers Round 4 - Bo5"
-"['2020-01-26'] Genesis 7 - Mew2King (Marth) vs ARMY (Ice Climbers) - Losers Round 4 - Bo5"
-"['2020-01-26'] Genesis 7 - Trif (Peach) vs Swedish Delight (Sheik) - Losers Round 4 - Bo5"
-"['2020-01-26'] Genesis 7 - SFAT (Fox) vs Panda (FL) (Fox) - Losers Round 3 - Bo5"
-"['2020-01-26'] Genesis 7 - Shroomed (Sheik) vs Zain (Marth) - Winners Quarters - Bo5"
-"['2020-01-26'] Genesis 7 - Mango (Falco) vs aMSa (Sheik) - Winners Quarters - Bo5"
-"['2020-01-26'] Genesis 7 - Fiction (Fox) vs Leffen (Fox) - Winners Quarters - Bo3"
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs n0ne (Captain Falcon) - Losers Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Losers Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Hungrybox (Jigglypuff) vs n0ne (Captain Falcon) - Winners Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Panda (FL) (Fox) vs Gahtzu (Captain Falcon) - Losers Quarters - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Chef Rach (Captain Falcon) - Losers Quarters - Bo5
+['2020-03-15'] CEO Dreamland 2020 - n0ne (Captain Falcon) vs Panda (FL) (Fox) - Winners Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Winners Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Krudo (Sheik) vs Gahtzu (Captain Falcon) - Losers Top 8 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - blankshooter744 (Fox) vs Chef Rach (Captain Falcon) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Leighton (Jigglypuff) vs Prof (Marth) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Sinbad (Sheik) vs Krudo (Sheik) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Wevans (Samus) vs Gahtzu (Captain Falcon) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Sinbad (Sheik) vs Dom (FL) (Marth) - Losers Round 4 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Winners Quarters - Bo5
 Scraping terminated.
 ```
 
 ...while the terminal details the progress:
 
 ```bash
-All vods:   0%|                                              | 0/300 [00:07<?, ?pages/s]
-Page 0:  37%|████████████████████                            | 22/60 [00:07<00:12,  3.07vods/s]
+All vods:   0%|                                              | 0/331 [00:07<?, ?pages/s]
+Page 0:  25%|██████████████                                  | 15/60 [00:07<00:12,  3.07vods/s]
 ```
 
 # License

@@ -1,12 +1,12 @@
-from vodscrepe import Scraper
 from tqdm import tqdm
 
-s = Scraper('melee', debug=True)
+from vodscrepe import Scraper, formatted_title
 
-pages = range(300)
+s = Scraper('melee')
+
 try:
-    for vod in s.scrape(pages, show_progress=True):
+    for vod in s.scrape(show_progress=True):
         if vod is not None:
-            tqdm.write(str(vod))
+            tqdm.write(formatted_title(vod))
 except KeyboardInterrupt:
     tqdm.write("Scraping terminated.")
