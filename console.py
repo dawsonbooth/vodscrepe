@@ -1,4 +1,5 @@
 import argparse
+import json
 
 from tqdm import tqdm
 
@@ -33,6 +34,8 @@ def main():
                         help='Display scraping progress')
     parser.add_argument('-v', '--verbose', type=bool, default=False,
                         help='Display error statements')
+    parser.add_argument('-j', '--json', type=bool, default=False,
+                        help='Output vod with JSON format')
     parser.add_argument('-w', '--workers', type=int, default=10,
                         help='Number of workers')
     parser.add_argument('-pw', '--page-workers', type=int, default=1,
@@ -47,9 +50,13 @@ def main():
     try:
         for vod in s.scrape(pages, show_progress=args.progress, verbose=args.verbose, num_workers=args.page_workers):
             if vod is not None:
-                tqdm.write(formatted_title(vod))
+                if args.json:
+                    tqdm.write(json.dumps(vod, indent=None))
+                else:
+                    tqdm.write(formatted_title(vod))
     except KeyboardInterrupt:
         tqdm.write("Scraping terminated.")
+
 
 if __name__ == '__main__':
     main()
