@@ -68,7 +68,7 @@ class Scraper:
             video_ids = [re.search(r"^([^?]*)", v["data-vod"]).group(1) for v in content.findChildren(
                 "div", class_="js-video widescreen", recursive=False)]
             casters_tag = content.findChild("div", class_="field-items")
-            casters = [c.getText() for c in casters_tag.findChildren(
+            casters = [{"alias": c.getText()} for c in casters_tag.findChildren(
                 recursive=False)] if casters_tag is not None else None
             return (video_ids, casters)
         except KeyError:
