@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vodscrepe"
-version = "1.2.1"
+version = "1.2.2"
 description = "https://vods.co/ vod scraper"
 authors = ["Dawson Booth <pypi@dawsonbooth.com>"]
 license = "MIT"
