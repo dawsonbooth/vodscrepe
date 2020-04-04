@@ -15,7 +15,7 @@ stderr = lambda *args: print(file=sys.stderr, *args)
 
 
 class Scraper:
-    def __init__(self, video_game, event='', player1='', player2='', character1='', character2='', caster1='', caster2='',  num_workers=10):
+    def __init__(self, video_game, event='', player1='', player2='', character1='', character2='', caster1='', caster2='',  num_workers=10, num_page_workers=2):
         self.video_game = video_game
         self.event = event
         self.player1 = player1
@@ -29,6 +29,7 @@ class Scraper:
             video_game, event, player1, player2, character1, character2, caster1, caster2)
 
         self.num_workers = num_workers
+        self.num_page_workers = min(num_page_workers, self.num_workers)
         self.session = FuturesSession(max_workers=self.num_workers)
 
         page_content = self.request(self.base_url).result().content
@@ -132,14 +133,14 @@ class Scraper:
                     if verbose:
                         stderr(e)
 
-    def scrape(self, pages=None, show_progress=False, verbose=False, num_workers=1):
+    def scrape(self, pages=None, show_progress=False, verbose=False):
         if pages is None:
             pages = range(self.num_pages - 1)
 
-        num_workers = min(num_workers, len(pages), self.num_workers)
+        self.num_page_workers = min(self.num_page_workers, len(pages))
 
-        request_queue = Queue(num_workers)
-        for i in range(num_workers):
+        request_queue = Queue(self.num_page_workers)
+        for i in range(self.num_page_workers):
             request_queue.put(self.request(
                 self.base_url + "?page=" + str(pages[i])))
 
@@ -159,4 +160,4 @@ class Scraper:
                 yield vod
 
             request_queue.put(self.request(
-                self.base_url + "?page=" + str(page + num_workers)))
+                self.base_url + "?page=" + str(page + self.num_page_workers)))
