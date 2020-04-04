@@ -69,7 +69,7 @@ class Scraper:
                 "div", class_="js-video widescreen", recursive=False)]
             casters_tag = content.findChild("div", class_="field-items")
             casters = [{"alias": c.getText()} for c in casters_tag.findChildren(
-                recursive=False)] if casters_tag is not None else None
+                recursive=False)] if casters_tag is not None else []
             return (video_ids, casters)
         except KeyError:
             raise InvalidVideoException(vod_id)
