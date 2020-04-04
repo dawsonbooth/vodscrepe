@@ -57,7 +57,7 @@ class Scraper:
         response = self.session.get(url, headers=headers)
         return response
 
-    def get_video_ids(self, vod_id, vod_request, verbose: bool):
+    def scrape_vod_page(self, vod_id, vod_request, verbose: bool):
         vod_content = vod_request.result().content
         vod_strainer = SoupStrainer('div', class_="region-inner clearfix")
         vod_soup = BeautifulSoup(
@@ -67,7 +67,10 @@ class Scraper:
         try:
             video_ids = [re.search(r"^([^?]*)", v["data-vod"]).group(1) for v in content.findChildren(
                 "div", class_="js-video widescreen", recursive=False)]
-            return video_ids
+            casters_tag = content.findChild("div", class_="field-items")
+            casters = [c.getText() for c in casters_tag.findChildren(
+                recursive=False)] if casters_tag is not None else None
+            return (video_ids, casters)
         except KeyError:
             raise InvalidVideoException(vod_id)
 
@@ -109,7 +112,7 @@ class Scraper:
                                 guess_character(tag["src"][24:-4]))
                     players.append(player)
 
-                    video_ids = self.get_video_ids(
+                    video_ids, casters = self.scrape_vod_page(
                         vod_id, vod_requests[i], verbose)
 
                     yield {
@@ -118,6 +121,7 @@ class Scraper:
                         "date": date,
                         "tournament": re.search(r"[^\s].*[^\s]", cells[0].getText()).group(),
                         "players": players,
+                        "casters": casters,
                         "round": re.search(r"[^\s].*[^\s]", cells[4].getText()).group(),
                         "best_of": best_of
                     }
