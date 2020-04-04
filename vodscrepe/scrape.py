@@ -67,6 +67,9 @@ class Scraper:
         try:
             video_ids = [re.search(r"^([^?]*)", v["data-vod"]).group(1) for v in content.findChildren(
                 "div", class_="js-video widescreen", recursive=False)]
+            if len(video_ids) == 0:
+                raise InvalidVideoException(vod_id)
+
             casters_tag = content.findChild("div", class_="field-items")
             casters = [{"alias": c.getText()} for c in casters_tag.findChildren(
                 recursive=False)] if casters_tag is not None else []
@@ -96,7 +99,7 @@ class Scraper:
                         best_of = int(re.search(
                             r"Bo([\d]*)", cells[3].getText()).group(1))
                     except AttributeError:
-                        raise InvalidVideoException(vod_id)
+                        continue
 
                     players = []
                     player = {"alias": "Unknown", "characters": []}
@@ -144,6 +147,7 @@ class Scraper:
         if show_progress:
             iter_pages = tqdm(iter_pages, position=1,
                               unit='pages', desc="All vods")
+
         for page in iter_pages:
 
             vods = self.scrape_page(request_queue.get(), verbose)
