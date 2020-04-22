@@ -44,11 +44,11 @@ def main():
     args = parser.parse_args()
 
     s = Scraper(args.game, event=args.event, player1=args.player1, player2=args.player2, character1=args.character1,
-                character2=args.character2, caster1=args.caster1, caster2=args.caster2, num_workers=args.workers)
+                character2=args.character2, caster1=args.caster1, caster2=args.caster2, num_workers=args.workers, num_page_workers=args.page_workers)
 
     pages = range(args.first, min(s.num_pages - 1, args.last))
     try:
-        for vod in s.scrape(pages, show_progress=args.progress, verbose=args.verbose, num_workers=args.page_workers):
+        for vod in s.scrape(pages, show_progress=args.progress, verbose=args.verbose):
             if vod is not None:
                 if args.json:
                     tqdm.write(json.dumps(vod, indent=None))

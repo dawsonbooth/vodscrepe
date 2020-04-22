@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [tool.poetry.scripts]
-vodscrepe = 'console:main'
+vodscrepe = 'vodscrepe.console:main'
 
 [tool.poetry.dependencies]
 python = "^3.5"
