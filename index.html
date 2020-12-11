@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  <link rel="canonical" href="https://dawsonbooth.github.io/vodscrepe/">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>vodscrepe</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Overview";
+    var mkdocs_page_input_path = "README.md";
+    var mkdocs_page_url = "/vodscrepe/";
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> vodscrepe</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Overview</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="documentation/">Documentation</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">vodscrepe</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Overview</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/dawsonbooth/vodscrepe/edit/master/docs/README.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="vodscrepe"><code>vodscrepe</code><a class="headerlink" href="#vodscrepe" title="Permanent link">🔗</a></h1>
+<p><a href="https://pypi.org/pypi/vodscrepe/"><img alt="" src="https://img.shields.io/pypi/v/vodscrepe.svg?style=flat" /></a>
+<a href="https://pypi.org/pypi/vodscrepe/"><img alt="" src="https://img.shields.io/pypi/dw/vodscrepe.svg?style=flat" /></a>
+<a href="https://pypi.org/pypi/vodscrepe/"><img alt="" src="https://img.shields.io/pypi/pyversions/vodscrepe.svg?style=flat" /></a>
+<a href="https://pypi.org/pypi/vodscrepe/"><img alt="" src="https://img.shields.io/pypi/format/vodscrepe.svg?style=flat" /></a>
+<a href="https://github.com/dawsonbooth/vodscrepe/blob/master/LICENSE"><img alt="" src="https://img.shields.io/pypi/l/vodscrepe.svg?style=flat" /></a></p>
+<h1 id="description">Description<a class="headerlink" href="#description" title="Permanent link">🔗</a></h1>
+<p>This PyPI package is best described as a tool for scraping the <a href="https://vods.co/">vods.co</a> website. Currently, the package only supports Super Smash Bros. Melee vods.</p>
+<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">🔗</a></h1>
+<p>With <a href="https://www.python.org/downloads/">Python</a> installed, simply run the following command to add the package to your project.</p>
+<pre><code class="bash">pip install vodscrepe
+</code></pre>
+
+<h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">🔗</a></h1>
+<p>The following is an example usage of the package, which is also included in the repo as <code>example.py</code>:</p>
+<pre><code class="python">from tqdm import tqdm
+
+from vodscrepe import Scraper, formatted_title
+
+s = Scraper('melee')
+
+try:
+    for vod in s.scrape(show_progress=True):
+        tqdm.write(formatted_title(vod))
+except KeyboardInterrupt:
+    tqdm.write(&quot;Scraping terminated.&quot;)
+</code></pre>
+
+<p>This example lists information about the vods from the most recent to the last page in the following fashion:</p>
+<pre><code class="bash">python example.py &gt; sets.txt
+</code></pre>
+
+<p>Then, the <code>sets.txt</code> file becomes populated with vod information...</p>
+<pre><code class="txt">['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs n0ne (Captain Falcon) - Losers Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Losers Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Hungrybox (Jigglypuff) vs n0ne (Captain Falcon) - Winners Finals - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Panda (FL) (Fox) vs Gahtzu (Captain Falcon) - Losers Quarters - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Chef Rach (Captain Falcon) - Losers Quarters - Bo5
+['2020-03-15'] CEO Dreamland 2020 - n0ne (Captain Falcon) vs Panda (FL) (Fox) - Winners Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Winners Semis - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Krudo (Sheik) vs Gahtzu (Captain Falcon) - Losers Top 8 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - blankshooter744 (Fox) vs Chef Rach (Captain Falcon) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Leighton (Jigglypuff) vs Prof (Marth) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Sinbad (Sheik) vs Krudo (Sheik) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Wevans (Samus) vs Gahtzu (Captain Falcon) - Losers Round 5 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Sinbad (Sheik) vs Dom (FL) (Marth) - Losers Round 4 - Bo5
+['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Winners Quarters - Bo5
+Scraping terminated.
+</code></pre>
+
+<p>...while the terminal details the progress:</p>
+<pre><code class="bash">All vods:   0%|                                              | 0/331 [00:07&lt;?, ?pages/s]
+Page 0:  25%|██████████████                                  | 15/60 [00:07&lt;00:12,  3.07vods/s]
+</code></pre>
+
+<h1 id="license">License<a class="headerlink" href="#license" title="Permanent link">🔗</a></h1>
+<p>This software is released under the terms of <a href="LICENSE">MIT license</a>.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="documentation/" class="btn btn-neutral float-right" title="Documentation">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/dawsonbooth/vodscrepe/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="documentation/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.1.2
+Build Date UTC : 2020-12-11 06:18:32.701470+00:00
+-->
