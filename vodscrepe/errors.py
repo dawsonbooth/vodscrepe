@@ -1,6 +1,3 @@
-
-
-
 class InvalidVideoException(Exception):
     def __init__(self, *args):
         message = "Invalid Video: vods.co vod '%s' links to invalid video" % args

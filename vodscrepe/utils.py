@@ -1,5 +1,3 @@
-
-
 def formatted_title(vod) -> str:
     title = ""
     title += "[" + repr(vod["date"]) + "] "

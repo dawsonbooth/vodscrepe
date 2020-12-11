@@ -3,11 +3,10 @@ import json
 
 from tqdm import tqdm
 
-from vodscrepe import Scraper, formatted_title
+from . import Scraper, formatted_title
 
 
 def main():
-
     parser = argparse.ArgumentParser(
         description='Scrape the vods from http://vods.co/')
     parser.add_argument('game', type=str, default='melee',

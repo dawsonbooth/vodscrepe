@@ -1,6 +1,5 @@
 import re
 import sys
-from concurrent.futures import as_completed
 from queue import Queue
 
 from bs4 import BeautifulSoup, SoupStrainer

@@ -1,6 +1,5 @@
 import re
 
-# TODO: Add SSBU characters and stages
 
 stages = {
     "Battlefield": re.compile(r"battle", flags=re.I),
