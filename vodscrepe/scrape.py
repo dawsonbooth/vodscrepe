@@ -1,18 +1,46 @@
+from __future__ import annotations
+
 import re
 import sys
 from queue import Queue
 
 from bs4 import BeautifulSoup, SoupStrainer
+from requests.adapters import Response
 from requests_futures.sessions import FuturesSession
 from tqdm import tqdm
 
+from vodscrepe.vod import Vod
+
 from .aliases import guess_character
-from .errors import InvalidVideoException
-from .utils import build_url
+from .errors import InvalidVideoError
 
 
-def stderr(*args):
-    print(file=sys.stderr, *args)
+def build_url(
+    video_game,
+    event: str = "",
+    player1: str = "",
+    player2: str = "",
+    character1: str = "",
+    character2: str = "",
+    caster1: str = "",
+    caster2: str = "",
+) -> str:
+    url = "https://vods.co/" + video_game
+    if player1:
+        url += "/player/" + player1
+    if player2:
+        url += "/player2/" + player2
+    if event:
+        url += "/event/" + event
+    if character1:
+        url += "/character/" + character1
+    if character2:
+        url += "/character2/" + character2
+    if caster1:
+        url += "/caster/" + character1
+    if caster2:
+        url += "/caster2/" + character2
+    return url
 
 
 class Scraper:
@@ -58,13 +86,10 @@ class Scraper:
         if last_page_tag is not None:
             self.num_pages = int(re.search(r"page=([\d]+)", last_page_tag["href"]).group(1))
 
-    def request(self, url):
-        headers = {"Accept-Encoding": "gzip"}
+    def request(self, url: str) -> Response:
+        return self.session.get(url, headers={"Accept-Encoding": "gzip"})
 
-        response = self.session.get(url, headers=headers)
-        return response
-
-    def scrape_vod_page(self, vod_id, vod_request, verbose: bool):
+    def scrape_vod_page(self, vod_id: str, vod_request: Response, verbose: bool):
         vod_content = vod_request.result().content
         vod_strainer = SoupStrainer("div", class_="region-inner clearfix")
         vod_soup = BeautifulSoup(vod_content, "lxml", parse_only=vod_strainer)
@@ -76,17 +101,15 @@ class Scraper:
                 for v in content.findChildren("div", class_="js-video widescreen", recursive=False)
             ]
             if len(video_ids) == 0:
-                raise InvalidVideoException(vod_id)
+                raise InvalidVideoError(vod_id)
 
             casters_tag = content.findChild("div", class_="field-items")
-            casters = (
-                [{"alias": c.getText()} for c in casters_tag.findChildren(recursive=False)]
-                if casters_tag is not None
-                else []
-            )
+            casters = []
+            if casters_tag:
+                casters = [{"alias": c.getText()} for c in casters_tag.findChildren(recursive=False)]
             return (video_ids, casters)
         except KeyError:
-            raise InvalidVideoException(vod_id)
+            raise InvalidVideoError(vod_id)
 
     def scrape_page(self, page_request, verbose: bool):
         page_content = page_request.result().content
@@ -109,32 +132,34 @@ class Scraper:
                         continue
 
                     players = []
-                    player = {"alias": "Unknown", "characters": []}
+                    player = Vod.Player(**{"alias": "Unknown", "characters": []})
                     for tag in cells[1].a.span.findChildren(recursive=False):
-                        if tag.name == u"b":
-                            if len(player["characters"]) != 0:
+                        if tag.name == "b":
+                            if len(player.characters) != 0:
                                 players.append(player)
-                                player = {"alias": "Unknown", "characters": []}
-                            player["alias"] = tag.getText()
-                        elif tag.name == u"img":
-                            player["characters"].append(guess_character(tag["src"][24:-4]))
+                                player = Vod.Player(**{"alias": "Unknown", "characters": []})
+                            player.alias = tag.getText()
+                        elif tag.name == "img":
+                            player.characters.append(guess_character(tag["src"][24:-4]))
                     players.append(player)
 
                     video_ids, casters = self.scrape_vod_page(vod_id, vod_requests[i], verbose)
 
-                    yield {
-                        "vod_id": vod_id,
-                        "video_ids": video_ids,
-                        "date": date,
-                        "tournament": re.search(r"[^\s].*[^\s]", cells[0].getText()).group(),
-                        "players": players,
-                        "casters": casters,
-                        "round": re.search(r"[^\s].*[^\s]", cells[4].getText()).group(),
-                        "best_of": best_of,
-                    }
-                except InvalidVideoException as e:
+                    yield Vod(
+                        **{
+                            "vod_id": vod_id,
+                            "video_ids": video_ids,
+                            "date": date,
+                            "tournament": re.search(r"[^\s].*[^\s]", cells[0].getText()).group(),
+                            "players": players,
+                            "casters": casters,
+                            "round": re.search(r"[^\s].*[^\s]", cells[4].getText()).group(),
+                            "best_of": best_of,
+                        }
+                    )
+                except InvalidVideoError as e:
                     if verbose:
-                        stderr(e)
+                        print(e, file=sys.stderr)
 
     def scrape(self, pages=None, show_progress=False, verbose=False):
         if pages is None:
@@ -154,9 +179,9 @@ class Scraper:
 
             vods = self.scrape_page(request_queue.get(), verbose)
             if show_progress:
-                vods = tqdm(vods, position=0, unit="vods", desc="Page %d" % page, total=60)
+                vods = tqdm(vods, position=0, unit="vods", desc=f"Page {page}", total=60)
 
             for vod in vods:
                 yield vod
 
-            request_queue.put(self.request(self.base_url + "?page=" + str(page + self.num_page_workers)))
+            request_queue.put(self.request(f"{self.base_url}?page={page + self.num_page_workers}"))

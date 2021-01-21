@@ -1,9 +1,10 @@
 import argparse
+import dataclasses as dc
 import json
 
 from tqdm import tqdm
 
-from . import Scraper, formatted_title
+from . import Scraper
 
 
 def main():
@@ -44,9 +45,9 @@ def main():
         for vod in s.scrape(pages, show_progress=args.progress, verbose=args.verbose):
             if vod is not None:
                 if args.json:
-                    tqdm.write(json.dumps(vod, indent=None))
+                    tqdm.write(json.dumps(dc.asdict(vod), indent=None))
                 else:
-                    tqdm.write(formatted_title(vod))
+                    tqdm.write(str(vod))
     except KeyboardInterrupt:
         tqdm.write("Scraping terminated.")
 
