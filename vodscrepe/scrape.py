@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import sys
+from dataclasses import dataclass
 from queue import Queue
 
 from bs4 import BeautifulSoup, SoupStrainer
@@ -13,34 +14,6 @@ from vodscrepe.vod import Vod
 
 from .aliases import guess_character
 from .errors import InvalidVideoError
-
-
-def build_url(
-    video_game,
-    event: str = "",
-    player1: str = "",
-    player2: str = "",
-    character1: str = "",
-    character2: str = "",
-    caster1: str = "",
-    caster2: str = "",
-) -> str:
-    url = "https://vods.co/" + video_game
-    if player1:
-        url += "/player/" + player1
-    if player2:
-        url += "/player2/" + player2
-    if event:
-        url += "/event/" + event
-    if character1:
-        url += "/character/" + character1
-    if character2:
-        url += "/character2/" + character2
-    if caster1:
-        url += "/caster/" + character1
-    if caster2:
-        url += "/caster2/" + character2
-    return url
 
 
 class Scraper:
@@ -57,16 +30,7 @@ class Scraper:
         num_workers=10,
         num_page_workers=2,
     ):
-        self.video_game = video_game
-        self.event = event
-        self.player1 = player1
-        self.player2 = player2
-        self.character1 = character1
-        self.character2 = character2
-        self.caster1 = caster1
-        self.caster2 = caster2
-
-        self.base_url = build_url(video_game, event, player1, player2, character1, character2, caster1, caster2)
+        self.base_url = self.URL(video_game, event, player1, player2, character1, character2, caster1, caster2)
 
         self.num_workers = num_workers
         self.num_page_workers = min(num_page_workers, self.num_workers)
@@ -169,7 +133,7 @@ class Scraper:
 
         request_queue = Queue(self.num_page_workers)
         for i in range(self.num_page_workers):
-            request_queue.put(self.request(self.base_url + "?page=" + str(pages[i])))
+            request_queue.put(self.request(f"{self.base_url}?page={pages[i]}"))
 
         iter_pages = pages
         if show_progress:
@@ -185,3 +149,32 @@ class Scraper:
                 yield vod
 
             request_queue.put(self.request(f"{self.base_url}?page={page + self.num_page_workers}"))
+
+    @dataclass
+    class URL:
+        video_game: str
+        event: str = ""
+        player1: str = ""
+        player2: str = ""
+        character1: str = ""
+        character2: str = ""
+        caster1: str = ""
+        caster2: str = ""
+
+        def __str__(self) -> str:
+            url = "https://vods.co/" + self.video_game
+            if self.player1:
+                url += "/player/" + self.player1
+            if self.player2:
+                url += "/player2/" + self.player2
+            if self.event:
+                url += "/event/" + self.event
+            if self.character1:
+                url += "/character/" + self.character1
+            if self.character2:
+                url += "/character2/" + self.character2
+            if self.caster1:
+                url += "/caster/" + self.character1
+            if self.caster2:
+                url += "/caster2/" + self.character2
+            return url
