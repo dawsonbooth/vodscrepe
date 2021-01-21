@@ -102,12 +102,11 @@
 <p>This PyPI package is best described as a tool for scraping the <a href="https://vods.co/">vods.co</a> website. Currently, the package only supports Super Smash Bros. Melee vods.</p>
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">🔗</a></h1>
 <p>With <a href="https://www.python.org/downloads/">Python</a> installed, simply run the following command to add the package to your project.</p>
-<pre><code class="bash">pip install vodscrepe
+<pre><code class="language-bash">pip install vodscrepe
 </code></pre>
-
 <h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">🔗</a></h1>
 <p>The following is an example usage of the package, which is also included in the repo as <code>example.py</code>:</p>
-<pre><code class="python">from tqdm import tqdm
+<pre><code class="language-python">from tqdm import tqdm
 
 from vodscrepe import Scraper, formatted_title
 
@@ -119,13 +118,11 @@ try:
 except KeyboardInterrupt:
     tqdm.write(&quot;Scraping terminated.&quot;)
 </code></pre>
-
 <p>This example lists information about the vods from the most recent to the last page in the following fashion:</p>
-<pre><code class="bash">python example.py &gt; sets.txt
+<pre><code class="language-bash">python example.py &gt; sets.txt
 </code></pre>
-
 <p>Then, the <code>sets.txt</code> file becomes populated with vod information...</p>
-<pre><code class="txt">['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5
+<pre><code class="language-txt">['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Hungrybox (Jigglypuff) - Grand Finals - Bo5
 ['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs n0ne (Captain Falcon) - Losers Finals - Bo5
 ['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Losers Semis - Bo5
 ['2020-03-15'] CEO Dreamland 2020 - Hungrybox (Jigglypuff) vs n0ne (Captain Falcon) - Winners Finals - Bo5
@@ -142,12 +139,10 @@ except KeyboardInterrupt:
 ['2020-03-15'] CEO Dreamland 2020 - Colbol (Fox) vs Gahtzu (Captain Falcon) - Winners Quarters - Bo5
 Scraping terminated.
 </code></pre>
-
 <p>...while the terminal details the progress:</p>
-<pre><code class="bash">All vods:   0%|                                              | 0/331 [00:07&lt;?, ?pages/s]
+<pre><code class="language-bash">All vods:   0%|                                              | 0/331 [00:07&lt;?, ?pages/s]
 Page 0:  25%|██████████████                                  | 15/60 [00:07&lt;00:12,  3.07vods/s]
 </code></pre>
-
 <h1 id="license">License<a class="headerlink" href="#license" title="Permanent link">🔗</a></h1>
 <p>This software is released under the terms of <a href="LICENSE">MIT license</a>.</p>
               
@@ -205,5 +200,5 @@ Page 0:  25%|██████████████                         
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2020-12-11 06:18:32.701470+00:00
+Build Date UTC : 2021-01-21 06:54:13.310614+00:00
 -->
