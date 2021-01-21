@@ -43,14 +43,17 @@ def main():
 
     pages = range(args.first, min(s.num_pages - 1, args.last))
     try:
+        if args.json:
+            tqdm.write("[")
         for vod in s.scrape(pages, show_progress=args.progress):
             if vod is not None:
                 if args.json:
-                    tqdm.write(json.dumps(dc.asdict(vod), indent=None))
+                    tqdm.write(f"{json.dumps(dc.asdict(vod), indent=None)},")
                 else:
                     tqdm.write(str(vod))
     except KeyboardInterrupt:
-        tqdm.write("Scraping terminated.")
+        if args.json:
+            tqdm.write("]")
 
 
 if __name__ == "__main__":
