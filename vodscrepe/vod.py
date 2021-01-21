@@ -36,7 +36,7 @@ class Vod:
 
     @dataclass
     class Caster:
-        __slots__ = "alias"
+        __slots__ = ("alias",)
 
         alias: str
 
