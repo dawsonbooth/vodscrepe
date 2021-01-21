@@ -25,13 +25,13 @@ The following is an example usage of the package, which is also included in the 
 ```python
 from tqdm import tqdm
 
-from vodscrepe import Scraper, formatted_title
+from vodscrepe import Scraper
 
 s = Scraper('melee')
 
 try:
     for vod in s.scrape(show_progress=True):
-        tqdm.write(formatted_title(vod))
+        tqdm.write(str(vod))
 except KeyboardInterrupt:
     tqdm.write("Scraping terminated.")
 ```
