@@ -17,8 +17,18 @@ def clean(c):
 
 
 @task
+def format(c):
+    c.run("black vodscrepe --line-length 119")
+
+
+@task
 def lint(c):
-    c.run("pylint vodscrepe")
+    c.run("flake8 vodscrepe --max-line-length 119 --extend-ignore E203")
+
+
+@task
+def type_check(c):
+    c.run("mypy -m vodscrepe --ignore-missing-imports")
 
 
 @task

@@ -13,7 +13,16 @@ def formatted_title(vod) -> str:
     return title
 
 
-def build_url(video_game, event: str = None, player1: str = None, player2: str = None, character1: str = None, character2: str = None, caster1: str = None, caster2: str = None) -> str:
+def build_url(
+    video_game,
+    event: str = None,
+    player1: str = None,
+    player2: str = None,
+    character1: str = None,
+    character2: str = None,
+    caster1: str = None,
+    caster2: str = None,
+) -> str:
     base_url = "https://vods.co/" + video_game
     if player1:
         base_url += "/player/" + player1

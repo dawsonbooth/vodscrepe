@@ -35,7 +35,7 @@ characters = {
     "Sheik": re.compile(r"sh", flags=re.I),
     "Young Link": re.compile(r"y.*link", flags=re.I),
     "Yoshi": re.compile(r"yoshi", flags=re.I),
-    "Zelda": re.compile(r"zelda", flags=re.I)
+    "Zelda": re.compile(r"zelda", flags=re.I),
 }
 rounds = {
     "Winners Quarters": re.compile(r"winner.*quarter|wq", flags=re.I),
