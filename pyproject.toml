@@ -41,6 +41,8 @@ portray = "^1.5.2"
 pytest = "^6.2.1"
 rope = "^0.18.0"
 
+joblib = {git = "https://github.com/joblib/joblib.git"}
+
 [tool.black]
 line-length = 119
 
