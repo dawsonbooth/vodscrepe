@@ -1,24 +1,25 @@
 # `vodscrepe`
 
-[![](https://img.shields.io/pypi/v/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
-[![](https://img.shields.io/pypi/dw/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
-[![](https://img.shields.io/pypi/pyversions/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
-[![](https://img.shields.io/pypi/format/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
-[![](https://img.shields.io/pypi/l/vodscrepe.svg?style=flat)](https://github.com/dawsonbooth/vodscrepe/blob/master/LICENSE)
+[![pypi version](https://img.shields.io/pypi/v/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![downloads](https://pepy.tech/badge/vodscrepe)](https://pepy.tech/project/vodscrepe)
+[![build status](https://github.com/dawsonbooth/vodscrepe/workflows/build/badge.svg)](https://github.com/dawsonbooth/vodscrepe/actions?workflow=build)
+[![python versions](https://img.shields.io/pypi/pyversions/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![format](https://img.shields.io/pypi/format/vodscrepe.svg?style=flat)](https://pypi.org/pypi/vodscrepe/)
+[![license](https://img.shields.io/pypi/l/vodscrepe.svg?style=flat)](https://github.com/dawsonbooth/vodscrepe/blob/master/LICENSE)
 
-# Description
+## Description
 
 This PyPI package is best described as a tool for scraping the [vods.co](https://vods.co/) website. Currently, the package only supports Super Smash Bros. Melee vods.
 
-# Installation
+## Installation
 
 With [Python](https://www.python.org/downloads/) installed, simply run the following command to add the package to your project.
 
 ```bash
-pip install vodscrepe
+python -m pip install vodscrepe
 ```
 
-# Usage
+## Usage
 
 The following is an example usage of the package, which is also included in the repo as `example.py`:
 
@@ -70,6 +71,8 @@ All vods:   0%|                                              | 0/331 [00:07<?, ?
 Page 0:  25%|██████████████                                  | 15/60 [00:07<00:12,  3.07vods/s]
 ```
 
-# License
+Feel free to [check out the docs](https://dawsonbooth.github.io/vodscrepe/) for more information.
+
+## License
 
 This software is released under the terms of [MIT license](LICENSE).
