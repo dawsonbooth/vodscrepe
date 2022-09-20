@@ -53,7 +53,9 @@ class Scraper:
         self.num_pages = 1
         last_page_tag = page_soup.findChild("a", title="Go to last page")
         if last_page_tag:
-            self.num_pages = int(re.search(r"page=([\d]+)", last_page_tag["href"]).group(1))
+            num_pages_match = re.search(r"page=([\d]+)", last_page_tag["href"])
+            if num_pages_match:
+                self.num_pages = int(num_pages_match.group(1))
 
         self.verbose = verbose
 
@@ -67,10 +69,12 @@ class Scraper:
         content = vod_soup.findChild(recursive=False)
 
         try:
-            video_ids = [
-                re.search(r"^([^?]*)", v["data-vod"]).group(1)
-                for v in content.findChildren("div", class_="js-video widescreen", recursive=False)
-            ]
+            video_ids = []
+            for v in content.findChildren("div", class_="js-video widescreen", recursive=False):
+                video_id_match = re.search(r"^([^?]*)", v["data-vod"])
+                if video_id_match:
+                    video_ids.append(video_id_match.group(1))
+
             if len(video_ids) == 0:
                 raise InvalidVideoError(vod_id)
 
@@ -95,11 +99,19 @@ class Scraper:
                 cells = row.findChildren(recursive=False)
 
                 try:
-                    vod_id = re.search(r".*\/(.*)", cells[1].a["href"]).group(1)
+                    vod_id_match = re.search(r".*\/(.*)", cells[1].a["href"])
+                    vod_id = vod_id_match.group(1) if vod_id_match else None
+
+                    if vod_id is None:
+                        continue
 
                     try:
-                        best_of = int(re.search(r"Bo([\d]*)", cells[3].getText()).group(1))
+                        best_of_match = re.search(r"Bo([\d]*)", cells[3].getText())
+                        best_of = int(best_of_match.group(1)) if best_of_match else None
                     except AttributeError:
+                        continue
+
+                    if best_of is None:
                         continue
 
                     players = []
@@ -116,10 +128,17 @@ class Scraper:
 
                     video_ids, casters = self.scrape_vod_page(vod_id, vod_requests[i])
 
-                    tournament = re.search(r"[^\s].*[^\s]", cells[0].getText()).group()
-                    _round = re.search(r"[^\s].*[^\s]", cells[4].getText()).group()
+                    tournament_match = re.search(r"[^\s].*[^\s]", cells[0].getText())
+                    if tournament_match is None:
+                        continue
+                    tournament = tournament_match.group()
 
-                    yield Vod(vod_id, video_ids, date, tournament, players, casters, _round, best_of)
+                    round_match = re.search(r"[^\s].*[^\s]", cells[4].getText())
+                    if round_match is None:
+                        continue
+                    round_ = round_match.group()
+
+                    yield Vod(vod_id, video_ids, date, tournament, players, casters, round_, best_of)
                 except InvalidVideoError as e:
                     if self.verbose:
                         print(e, file=sys.stderr)
