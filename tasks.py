@@ -32,18 +32,12 @@ def clean_python(c):
 
 
 @task
-def clean_tests(c):
-    """Clean up files from testing"""
-    shutil.rmtree(ROOT / ".pytest_cache", ignore_errors=True)
-
-
-@task
 def clean_type_checking(c):
     """Clean up files from type-checking"""
     shutil.rmtree(ROOT / ".mypy_cache", ignore_errors=True)
 
 
-@task(pre=[clean_build, clean_docs, clean_python, clean_tests, clean_type_checking])
+@task(pre=[clean_build, clean_docs, clean_python, clean_type_checking])
 def clean(c):
     """Run all clean sub-tasks"""
 
@@ -77,12 +71,6 @@ def lint(c):
     """Run all linting"""
     flake8_args = ["--max-line-length 119", "--extend-ignore E203,W503", "--exclude .venv"]
     _run(c, f"flake8 {ROOT}", *flake8_args)
-
-
-@task
-def test(c):
-    """Run tests"""
-    _run(c, "pytest")
 
 
 @task(
