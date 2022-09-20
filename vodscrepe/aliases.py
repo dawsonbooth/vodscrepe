@@ -1,6 +1,5 @@
 import re
 
-
 stages = {
     "Battlefield": re.compile(r"battle", flags=re.I),
     "Dream Land N64": re.compile(r"land", flags=re.I),
