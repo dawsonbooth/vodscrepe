@@ -1,0 +1,20 @@
+{
+  "configurations": [
+    {
+      "name": "Main",
+      "type": "python",
+      "module": "vodscrepe",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "args": ["-pj", "melee", ">", "out.json"]
+    },
+    {
+      "name": "Example",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/example.py",
+      "console": "integratedTerminal",
+      "args": [">", "sets.txt"]
+    }
+  ]
+}
