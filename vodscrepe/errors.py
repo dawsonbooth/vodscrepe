@@ -9,6 +9,6 @@ class InvalidVideoError(Error):
 
 
 class InvalidPageError(Error):
-    def __init__(self, *args):
-        message = "Invalid Page: vods.co game '%s' does not have page '%i'" % args
+    def __init__(self, game, page):
+        message = f"Invalid Page: vods.co game '{game}' does not have page '{page}'"
         super().__init__(message)
